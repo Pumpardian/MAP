@@ -48,6 +48,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.yurameki.calculator.main.api.rememberFlashlightHandler
+import com.yurameki.calculator.main.api.rememberVibrationHandler
 import com.yurameki.calculator.main.domain.viewmodels.CalculatorViewModel
 import com.yurameki.calculator.main.ui.calculatorScreens.ActionBar
 import com.yurameki.calculator.main.ui.calculatorScreens.DisplayField
@@ -58,6 +60,7 @@ import com.yurameki.calculator.ui.theme.LocalCalculatorColors
 fun HorizontalScreen(viewModel: CalculatorViewModel) {
     val uiState by viewModel.uiState.collectAsState()
     val colors = LocalCalculatorColors.current
+    val flashlightHandler = rememberFlashlightHandler()
 
     BoxWithConstraints(
         modifier = Modifier
@@ -118,7 +121,7 @@ fun HorizontalScreen(viewModel: CalculatorViewModel) {
 
             EngineeringCalculatorPad(
                 onButtonClick = { text ->
-                    viewModel.onButtonClicked(text)
+                    viewModel.onButtonClicked(text, flashlightHandler)
                 },
                 buttonSize = buttonSize
             )
@@ -226,6 +229,7 @@ fun HorizontalCalculatorButton(
     modifier: Modifier
 ) {
     val colors = LocalCalculatorColors.current
+    val vibrationHandler = rememberVibrationHandler()
 
     val fontSize = 30.sp
 
@@ -263,6 +267,7 @@ fun HorizontalCalculatorButton(
                 indication = LocalIndication.current,
                 onClick = {
                     onClick()
+                    vibrationHandler.vibrate()
                 }
             )
     ) {

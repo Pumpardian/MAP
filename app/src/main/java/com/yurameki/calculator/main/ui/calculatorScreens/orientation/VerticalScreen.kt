@@ -34,6 +34,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.yurameki.calculator.main.api.rememberFlashlightHandler
+import com.yurameki.calculator.main.api.rememberVibrationHandler
 import com.yurameki.calculator.main.domain.viewmodels.CalculatorViewModel
 import com.yurameki.calculator.main.ui.calculatorScreens.ActionBar
 import com.yurameki.calculator.main.ui.calculatorScreens.DisplayField
@@ -45,6 +47,7 @@ import com.yurameki.calculator.ui.theme.LocalCalculatorColors
 fun VerticalScreen(viewModel: CalculatorViewModel) {
     val uiState by viewModel.uiState.collectAsState()
     val colors = LocalCalculatorColors.current
+    val flashlightHandler = rememberFlashlightHandler()
 
     BoxWithConstraints(
         modifier = Modifier
@@ -98,7 +101,7 @@ fun VerticalScreen(viewModel: CalculatorViewModel) {
 
             CalculatorPad(
                 onButtonClick = { text ->
-                    viewModel.onButtonClicked(text)
+                    viewModel.onButtonClicked(text, flashlightHandler)
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -211,6 +214,8 @@ fun CalculatorButton(
     modifier: Modifier
 ) {
     val colors = LocalCalculatorColors.current
+    val vibrationHandler = rememberVibrationHandler()
+
     val backgroundColor: Color = when (text) {
         "C", "%", "( )" -> colors.upperButtonsBackground
         "=" -> colors.equalsButtonBackground
@@ -243,6 +248,7 @@ fun CalculatorButton(
             .clickable(
                 onClick = {
                     onClick()
+                    vibrationHandler.vibrate()
                 },
                 interactionSource = interactionSource,
                 indication = null
@@ -259,6 +265,7 @@ fun CalculatorButton(
                 .clickable(
                     onClick = {
                         onClick()
+                        vibrationHandler.vibrate()
                     },
                     interactionSource = interactionSource,
                     indication = LocalIndication.current
