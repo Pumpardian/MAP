@@ -1,21 +1,22 @@
-package com.yurameki.calculator.main.app
+package com.yurameki.calculator.app
 
-import com.yurameki.calculator.main.api.FlashlightHandler
-import com.yurameki.calculator.main.domain.models.CalculatorState
+import com.yurameki.calculator.api.FlashlightHandler
+import com.yurameki.calculator.domain.models.CalculatorState
 import java.util.Stack
 import kotlin.math.*
 
-class CalculatorUseCase {
+class CalculatorLogic {
 
     fun onButtonClicked(
         state: CalculatorState,
         button: String,
-        flashlightHandler: FlashlightHandler? = null
+        flashlightHandler: FlashlightHandler? = null,
+        notificationsCenter: NotificationsCenter? = null
     ): CalculatorState {
         val newState = when (button) {
             "C" -> CalculatorState()
             "⌫️" -> deleteLast(state)
-            "=" -> equals(state, flashlightHandler)
+            "=" -> equals(state, flashlightHandler, notificationsCenter)
             "+/-" -> plusMinus(state)
             "( )" -> parentheses(state)
             else -> generalInput(state, button)
@@ -44,15 +45,17 @@ class CalculatorUseCase {
 
     private fun equals(
         state: CalculatorState,
-        flashlightHandler: FlashlightHandler?
+        flashlightHandler: FlashlightHandler?,
+        notificationsCenter: NotificationsCenter?
     ): CalculatorState {
         if (!state.isResult) {
             val originalExpr = state.primaryValue
             val evalResult = tryEvalExpression(originalExpr)
             if (evalResult == null) {
                 flashlightHandler?.flash(1000)
-
                 val errorMessage = getErrorMessage()
+                notificationsCenter?.showErrorNotification(errorMessage)
+
                 return state.copy(
                     primaryValue = "Error",
                     secondaryValue = "",

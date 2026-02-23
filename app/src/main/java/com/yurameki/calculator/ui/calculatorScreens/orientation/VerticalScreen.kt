@@ -1,4 +1,4 @@
-package com.yurameki.calculator.main.ui.calculatorScreens.orientation
+package com.yurameki.calculator.calculatorScreens.orientation
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.animateColorAsState
@@ -34,12 +34,14 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.yurameki.calculator.main.api.rememberFlashlightHandler
-import com.yurameki.calculator.main.api.rememberVibrationHandler
-import com.yurameki.calculator.main.domain.viewmodels.CalculatorViewModel
-import com.yurameki.calculator.main.ui.calculatorScreens.ActionBar
-import com.yurameki.calculator.main.ui.calculatorScreens.DisplayField
-import com.yurameki.calculator.main.ui.calculatorScreens.Divider
+import com.yurameki.calculator.api.rememberFlashlightHandler
+import com.yurameki.calculator.api.rememberVibrationHandler
+import com.yurameki.calculator.app.rememberNotificationsCenter
+import com.yurameki.calculator.calculatorScreens.ActionBar
+import com.yurameki.calculator.calculatorScreens.DisplayField
+import com.yurameki.calculator.calculatorScreens.Divider
+import com.yurameki.calculator.calculatorScreens.HistoryList
+import com.yurameki.calculator.domain.viewmodels.CalculatorViewModel
 import com.yurameki.calculator.ui.theme.LocalCalculatorColors
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
@@ -48,6 +50,7 @@ fun VerticalScreen(viewModel: CalculatorViewModel) {
     val uiState by viewModel.uiState.collectAsState()
     val colors = LocalCalculatorColors.current
     val flashlightHandler = rememberFlashlightHandler()
+    val notificationsCenter = rememberNotificationsCenter()
 
     BoxWithConstraints(
         modifier = Modifier
@@ -84,6 +87,8 @@ fun VerticalScreen(viewModel: CalculatorViewModel) {
 
             ActionBar(
                 onDelete = { viewModel.onButtonClicked("⌫️") },
+                onHistoryClick = { viewModel.toggleHistory() },
+                onThemeToggle = { viewModel.toggleTheme() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(screenHeight * 0.08f)
@@ -99,14 +104,25 @@ fun VerticalScreen(viewModel: CalculatorViewModel) {
 
             Spacer(modifier = Modifier.height(screenHeight * 0.01f))
 
-            CalculatorPad(
-                onButtonClick = { text ->
-                    viewModel.onButtonClicked(text, flashlightHandler)
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(screenWidth * 101 / 80)
-            )
+            if (uiState.isHistoryVisible) {
+                HistoryList(
+                    history = uiState.history,
+                    onClearHistory = { viewModel.clearHistory() },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(screenWidth * 101 / 80)
+                )
+            }
+            else {
+                CalculatorPad(
+                    onButtonClick = { text ->
+                        viewModel.onButtonClicked(text, flashlightHandler, notificationsCenter)
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(screenWidth * 101 / 80)
+                )
+            }
         }
     }
 }

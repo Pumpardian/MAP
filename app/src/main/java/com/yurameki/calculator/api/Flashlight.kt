@@ -1,4 +1,4 @@
-package com.yurameki.calculator.main.api
+package com.yurameki.calculator.api
 
 import android.content.Context
 import android.hardware.camera2.CameraCharacteristics

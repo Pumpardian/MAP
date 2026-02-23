@@ -1,39 +1,37 @@
-package com.yurameki.calculator.main
+package com.yurameki.calculator
 
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.lifecycleScope
-import com.yurameki.calculator.main.ui.Calculator
+import com.yurameki.calculator.domain.viewmodels.CalculatorViewModel
 import com.yurameki.calculator.ui.theme.CalculatorTheme
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
+    private val viewModel by viewModels<CalculatorViewModel>()
+
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         actionBar?.hide()
         val splashScreen = installSplashScreen()
-        var keepSplashVisible = true
-        splashScreen.setKeepOnScreenCondition { keepSplashVisible }
+        splashScreen.setKeepOnScreenCondition { !viewModel.isThemeLoaded.value }
 
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
-        lifecycleScope.launch {
-            delay(2000)
-            keepSplashVisible = false
-        }
-
         setContent {
-            CalculatorTheme {
+            val useDarkTheme by viewModel.useDarkTheme.collectAsState(initial = true)
+
+            CalculatorTheme(useDarkTheme = useDarkTheme) {
                 Scaffold(modifier = Modifier.fillMaxSize().navigationBarsPadding()) {
                     Calculator()
                 }

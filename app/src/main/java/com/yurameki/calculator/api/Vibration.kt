@@ -1,4 +1,4 @@
-package com.yurameki.calculator.main.api
+package com.yurameki.calculator.api
 
 import android.content.Context
 import android.os.VibrationEffect
@@ -12,12 +12,12 @@ class VibrationHandler(context: Context) {
     private val vibrator: Vibrator =
         context.getSystemService(VibratorManager::class.java).defaultVibrator
 
-    fun vibrate(milliseconds: Long = 50) {
+    fun vibrate(milliseconds: Long = 25) {
         if (vibrator.hasVibrator()) {
             vibrator.vibrate(
                 VibrationEffect.createOneShot(
                     milliseconds,
-                    VibrationEffect.DEFAULT_AMPLITUDE
+                    VibrationEffect.EFFECT_TICK
                 )
             )
         }
