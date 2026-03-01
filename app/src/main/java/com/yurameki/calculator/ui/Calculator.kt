@@ -1,11 +1,11 @@
-package com.yurameki.calculator
+package com.yurameki.calculator.ui
 
 import android.content.res.Configuration
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.yurameki.calculator.calculatorScreens.orientation.HorizontalScreen
-import com.yurameki.calculator.calculatorScreens.orientation.VerticalScreen
+import com.yurameki.calculator.ui.calculatorScreens.orientation.HorizontalScreen
+import com.yurameki.calculator.ui.calculatorScreens.orientation.VerticalScreen
 import com.yurameki.calculator.domain.viewmodels.CalculatorViewModel
 
 @Composable

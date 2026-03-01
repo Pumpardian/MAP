@@ -1,4 +1,4 @@
-package com.yurameki.calculator.calculatorScreens.orientation
+package com.yurameki.calculator.ui.calculatorScreens.orientation
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.animateColorAsState
@@ -37,10 +37,10 @@ import androidx.compose.ui.unit.sp
 import com.yurameki.calculator.api.rememberFlashlightHandler
 import com.yurameki.calculator.api.rememberVibrationHandler
 import com.yurameki.calculator.app.rememberNotificationsCenter
-import com.yurameki.calculator.calculatorScreens.ActionBar
-import com.yurameki.calculator.calculatorScreens.DisplayField
-import com.yurameki.calculator.calculatorScreens.Divider
-import com.yurameki.calculator.calculatorScreens.HistoryList
+import com.yurameki.calculator.ui.calculatorScreens.ActionBar
+import com.yurameki.calculator.ui.calculatorScreens.DisplayField
+import com.yurameki.calculator.ui.calculatorScreens.Divider
+import com.yurameki.calculator.ui.calculatorScreens.HistoryList
 import com.yurameki.calculator.domain.viewmodels.CalculatorViewModel
 import com.yurameki.calculator.ui.theme.LocalCalculatorColors
 

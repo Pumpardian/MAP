@@ -1,4 +1,4 @@
-package com.yurameki.calculator.calculatorScreens
+package com.yurameki.calculator.ui.calculatorScreens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke

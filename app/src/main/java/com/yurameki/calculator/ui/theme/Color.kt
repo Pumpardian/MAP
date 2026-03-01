@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 
 val DarkCalcBackground = Color(0xFF010101)
 val DarkDigitTextColor = Color(0xFFCCCCCC)
-val DarkSymbolTextColor = Color(0xFF101010)
+val DarkSymbolTextColor = Color(0xFF303030)
 val DarkSymbolBackground = Color(0xFF888888)
 val DarkButtonGray = Color(0xFF161616)
 val DarkEqualsButtonBackground = Color(0xFF5ABC36)
